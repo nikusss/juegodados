@@ -5,14 +5,11 @@ let rotacionX, rotacionY, rotacionZ;
 let tiempoLanzamiento = 1500; // Duración de la animación en milisegundos
 let inicioLanzamiento;
 
-// Variable para el movimiento del título
-let tituloX;
+// Nuevo lienzo 2D para las notas y los títulos
+let pg;
 
 // Variable para la imagen de fondo
 let bgImage;
-
-// Nuevo lienzo 2D para las notas y los títulos
-let pg;
 
 // Variable para la tipografía Oswald-Bold
 let myFont;
@@ -60,9 +57,6 @@ function setup() {
   // Establecemos los ángulos de rotación iniciales
   rotacionX = 0;
   rotacionY = 0;
-
-  // Inicializamos la posición del título fuera de la pantalla, a la izquierda
-  tituloX = -pg.width / 2;
 }
 
 function draw() {
@@ -298,23 +292,6 @@ function drawDots(num, s) {
   }
 }
 
-// Función para dibujar texto con un efecto de resplandor
-function drawGlowingText(text, x, y, size, mainColor) {
-  // Color del resplandor: blanco con opacidad
-  let glowColor = color(255, 255, 255, 20); // Menor opacidad para menos carga
-  
-  // Dibuja menos veces para crear un efecto de "blur" más ligero
-  for (let i = 0; i < 2; i++) { // Reducido de 5 a 2
-    pg.fill(glowColor);
-    pg.text(text, x, y); // Quitado el random() para más eficiencia
-  }
-  
-  // Dibuja el texto principal con su color definido
-  pg.fill(mainColor);
-  pg.text(text, x, y);
-}
-
-
 // Nueva función para mostrar la interfaz completa
 function drawInterface(dadoResultado) {
   // Limpia el lienzo por completo para evitar bordes o artefactos
@@ -324,17 +301,14 @@ function drawInterface(dadoResultado) {
   pg.textFont(myFont);
   pg.noStroke();
   
-  // --- Dibuja el título con efecto de brillo (usando la nueva función) ---
-  pg.textSize(32); 
+  // --- Dibuja el título en dos líneas ---
+  pg.textSize(24);
   pg.textAlign(pg.CENTER, pg.TOP);
-  // Cambiamos el color principal del texto a magenta
-  drawGlowingText("Participa y gana algunos de nuestros premios", tituloX, 80, 32, color(255, 0, 255));
-  
-  // Actualiza la posición del título
-  tituloX += 2; // Velocidad del movimiento
-  if (tituloX > pg.width + 50) { // Si el título sale por la derecha, lo reinicia a la izquierda
-    tituloX = -pg.width / 2;
-  }
+  pg.fill(255, 0, 255);
+  // Dibujamos la primera línea
+  pg.text("Participa y gana", pg.width / 2, 80);
+  // Dibujamos la segunda línea un poco más abajo
+  pg.text("algunos de nuestros premios", pg.width / 2, 115);
   
   // Dibuja las notas
   pg.textSize(28); // Tamaño de fuente más grande
@@ -365,8 +339,9 @@ function drawInterface(dadoResultado) {
       pg.fill(255, 0, 0); 
       pg.text(notaTexto, x, y);
     } else {
-      // Dibuja las notas no seleccionadas con el efecto de brillo
-      drawGlowingText(notaTexto, x, y, 28, color(255, 0, 255));
+      // Dibuja las notas no seleccionadas
+      pg.fill(255, 0, 255); // Color magenta directamente
+      pg.text(notaTexto, x, y);
     }
   }
 }
