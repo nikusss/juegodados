@@ -301,12 +301,12 @@ function drawDots(num, s) {
 // Función para dibujar texto con un efecto de resplandor
 function drawGlowingText(text, x, y, size, mainColor) {
   // Color del resplandor: blanco con opacidad
-  let glowColor = color(255, 255, 255, 50);
+  let glowColor = color(255, 255, 255, 20); // Menor opacidad para menos carga
   
-  // Dibuja múltiples veces para crear el efecto de "bloor"
-  for (let i = 0; i < 5; i++) {
+  // Dibuja menos veces para crear un efecto de "blur" más ligero
+  for (let i = 0; i < 2; i++) { // Reducido de 5 a 2
     pg.fill(glowColor);
-    pg.text(text, x + random(-1, 1), y + random(-1, 1));
+    pg.text(text, x, y); // Quitado el random() para más eficiencia
   }
   
   // Dibuja el texto principal con su color definido
